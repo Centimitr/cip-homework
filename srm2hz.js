@@ -9,18 +9,12 @@ const ENCODING = 'utf16-le';
 const ZIMB = {};
 readLines(getPath('.', INPUT), ENCODING)
     .map(line => {
-        let rtn = {
-            pinyin: '',
-            characters: []
+        let pinyin = /^[A-Za-z]+/.exec(line)[0];
+        let characters = line.split('').slice(pinyin.length);
+        return {
+            pinyin: pinyin,
+            characters: characters
         };
-        line.split('').forEach(c => {
-            if (c.match(/^[A-Za-z]+$/)) {
-                rtn.pinyin += c;
-            } else {
-                rtn.characters.push(c);
-            }
-        });
-        return rtn;
     })
     .forEach(obj => ZIMB[obj.pinyin] = obj.characters);
 
@@ -28,3 +22,5 @@ const srm2hz = srm => {
     srm = iconv.decode(new Buffer(srm), ENCODING);
     return iconv.encode(ZIMB[srm] ? ZIMB[srm].characters.join('') : null, ENCODING);
 };
+
+module.exports = srm2hz;
