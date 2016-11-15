@@ -6,10 +6,10 @@ const pyEncode = py => {
         if (first.indexOf(py.slice(0, 1)) >= 0) {
             pre = first.indexOf(py.slice(0, 1));
             post = last.indexOf([py.slice(2)]);
-        }else if(first.indexOf(py[0])>=0) {
+        } else if (first.indexOf(py[0]) >= 0) {
             pre = first.indexOf([py[0]]);
             post = last.indexOf(py.slice(1));
-        }else{
+        } else {
             pre = 0;
             post = last.indexOf(py);
         }
@@ -17,6 +17,5 @@ const pyEncode = py => {
         pre = py;
         post = undefined;
     }
-    // JavaScript' number do not have different length, here use a short string to express the pyEncode
-    return pre + '.' + post;
+    return new Buffer([pre, post]);
 };
